@@ -1,5 +1,5 @@
 from NiaPy.algorithms.basic import MothFlameOptimizer, DifferentialEvolution
-from NiaPy.benchmarks import Ackley, Alpine1, Levy, Rastrigin, \
+from NiaPy.benchmarks import Ackley, Alpine1, Rastrigin, \
     Rosenbrock, StyblinskiTang
 
 import matplotlib.pyplot as plt
@@ -46,7 +46,6 @@ def optimize(bench):
 
 bench = Ackley(Lower=-5, Upper=5)
 # bench = Alpine1(Lower=-10, Upper=10)
-# bench = Levy(Lower=-7, Upper=7)
 # bench = Rastrigin(Lower=-5, Upper=5)
 # bench = Rosenbrock(Lower=-1, Upper=1)
 # bench = StyblinskiTang(Lower=-5, Upper=5)
