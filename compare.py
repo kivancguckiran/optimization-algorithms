@@ -3,11 +3,17 @@ from NiaPy.algorithms.basic import MothFlameOptimizer, \
     ParticleSwarmAlgorithm, BatAlgorithm, FireflyAlgorithm, \
     GeneticAlgorithm
 from NiaPy.benchmarks import Ackley, Alpine1, Rastrigin, \
-    Rosenbrock, StyblinskiTang
+    Rosenbrock
 from mpl_toolkits.mplot3d import axes3d, Axes3D
 
 import matplotlib.pyplot as plt
 import numpy as np
+
+
+maxIter = 100
+pop = 25
+dim = 10
+epoch = 10
 
 
 def plot(bench, filename):
@@ -46,14 +52,14 @@ def optimize(bench, algo):
     average_fa = 0
     average_ga = 0
 
-    for i in np.arange(10):
-        mfo = MothFlameOptimizer(D=2, NP=20, nGEN=1000, benchmark=bench)
-        de = DifferentialEvolution(D=2, NP=20, nGEN=1000, benchmark=bench)
-        abc = ArtificialBeeColonyAlgorithm(D=2, NP=20, nFES=1000, benchmark=bench)
-        pso = ParticleSwarmAlgorithm(D=2, NP=20, nGEN=1000, benchmark=bench)
-        ba = BatAlgorithm(D=2, NP=20, nFES=1000, benchmark=bench)
-        fa = FireflyAlgorithm(D=2, NP=20, nFES=1000, benchmark=bench)
-        ga = GeneticAlgorithm(D=2, NP=20, nFES=1000, benchmark=bench)
+    for i in np.arange(epoch):
+        mfo = MothFlameOptimizer(D=dim, NP=pop, nGEN=maxIter, benchmark=bench)
+        de = DifferentialEvolution(D=dim, NP=pop, nGEN=maxIter, benchmark=bench)
+        abc = ArtificialBeeColonyAlgorithm(D=dim, NP=pop, nFES=maxIter, benchmark=bench)
+        pso = ParticleSwarmAlgorithm(D=dim, NP=pop, nGEN=maxIter, benchmark=bench)
+        ba = BatAlgorithm(D=dim, NP=pop, nFES=maxIter, benchmark=bench)
+        fa = FireflyAlgorithm(D=dim, NP=pop, nFES=maxIter, benchmark=bench)
+        ga = GeneticAlgorithm(D=dim, NP=pop, nFES=maxIter, benchmark=bench)
 
         gen, best_de = de.run()
         gen, best_mfo = mfo.run()
@@ -63,21 +69,21 @@ def optimize(bench, algo):
         gen, best_fa = fa.run()
         gen, best_ga = ga.run()
 
-        average_mfo += best_de / 10
-        average_de += best_mfo / 10
-        average_abc += best_abc / 10
-        average_pso += best_pso / 10
-        average_ba += best_ba / 10
-        average_fa += best_fa / 10
-        average_ga += best_ga / 10
+        average_mfo += best_de / epoch
+        average_de += best_mfo / epoch
+        average_abc += best_abc / epoch
+        average_pso += best_pso / epoch
+        average_ba += best_ba / epoch
+        average_fa += best_fa / epoch
+        average_ga += best_ga / epoch
 
-    print(algo, ': DE Average of Bests over 10 run: ', average_de)
-    print(algo, ': MFO Average of Bests over 10 run: ', average_mfo)
-    print(algo, ': ABC Average of Bests over 10 run: ', average_abc)
-    print(algo, ': PSO Average of Bests over 10 run: ', average_pso)
-    print(algo, ': BA Average of Bests over 10 run: ', average_ba)
-    print(algo, ': FA Average of Bests over 10 run: ', average_fa)
-    print(algo, ': GA Average of Bests over 10 run: ', average_ga)
+    print(algo, ': DE Average of Bests over', epoch, 'run: ', average_de)
+    print(algo, ': MFO Average of Bests over', epoch, 'run: ', average_mfo)
+    print(algo, ': ABC Average of Bests over', epoch, 'run: ', average_abc)
+    print(algo, ': PSO Average of Bests over', epoch, 'run: ', average_pso)
+    print(algo, ': BA Average of Bests over', epoch, 'run: ', average_ba)
+    print(algo, ': FA Average of Bests over', epoch, 'run: ', average_fa)
+    print(algo, ': GA Average of Bests over', epoch, 'run: ', average_ga)
 
     return [average_de, average_mfo, average_abc, average_pso, average_ba, average_fa, average_ga]
 
@@ -85,24 +91,20 @@ def optimize(bench, algo):
 results = {}
 
 bench = Ackley(Lower=-5, Upper=5)
-plot(bench, 'ackley.png')
+# plot(bench, 'ackley.png')
 de, mfo, abc, pso, ba, fa, ga = optimize(bench, 'Ackley')
 results["ackley"] = {"de": de, "mfo": mfo, "abc": abc, "pso": pso, "ba": ba, "fa": fa, "ga": ga}
 bench = Alpine1(Lower=-10, Upper=10)
-plot(bench, 'alpine.png')
+# plot(bench, 'alpine.png')
 de, mfo, abc, pso, ba, fa, ga = optimize(bench, 'Alpine')
 results["alpine"] = {"de": de, "mfo": mfo, "abc": abc, "pso": pso, "ba": ba, "fa": fa, "ga": ga}
 bench = Rastrigin(Lower=-5, Upper=5)
-plot(bench, 'rastrigin.png')
+# plot(bench, 'rastrigin.png')
 de, mfo, abc, pso, ba, fa, ga = optimize(bench, 'Rastrigin')
 results["rastrigin"] = {"de": de, "mfo": mfo, "abc": abc, "pso": pso, "ba": ba, "fa": fa, "ga": ga}
 bench = Rosenbrock(Lower=-1, Upper=1)
-plot(bench, 'rosenbrock.png')
+# plot(bench, 'rosenbrock.png')
 de, mfo, abc, pso, ba, fa, ga = optimize(bench, 'Rosenbrock')
 results["rosenbrock"] = {"de": de, "mfo": mfo, "abc": abc, "pso": pso, "ba": ba, "fa": fa, "ga": ga}
-bench = StyblinskiTang(Lower=-5, Upper=5)
-plot(bench, 'styblinski.png')
-de, mfo, abc, pso, ba, fa, ga = optimize(bench, 'Styblinski-Tang')
-results["styblinski"] = {"de": de, "mfo": mfo, "abc": abc, "pso": pso, "ba": ba, "fa": fa, "ga": ga}
 
 print(results)
