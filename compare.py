@@ -10,8 +10,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
-maxIter = 100
-pop = 25
+maxIter = 200
+pop = 50
 dim = 10
 epoch = 10
 
